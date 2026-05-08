@@ -1,0 +1,25 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#FFFFFF"/>
+  <circle cx="170" cy="120" r="220" fill="#8B5CF6" fill-opacity=".12"/>
+  <circle cx="1060" cy="50" r="260" fill="#3B82F6" fill-opacity=".12"/>
+  <rect x="72" y="72" width="1056" height="486" rx="56" fill="#F8FAFF" stroke="#E7ECF5" stroke-width="2"/>
+  <rect x="820" y="126" width="220" height="330" rx="42" fill="#172033"/>
+  <rect x="840" y="150" width="180" height="282" rx="28" fill="url(#screen)"/>
+  <ellipse cx="930" cy="238" rx="43" ry="56" stroke="#7C3AED" stroke-width="8" stroke-dasharray="14 12"/>
+  <path d="M855 336C900 304 960 304 1005 336" stroke="#3B82F6" stroke-width="10" stroke-linecap="round" stroke-dasharray="14 12"/>
+  <rect x="154" y="142" width="84" height="84" rx="28" fill="url(#brand)"/>
+  <path d="M196 165C179.4 165 166 178.4 166 195v6c0 5.5 4.5 10 10 10s10-4.5 10-10v-6c0-5.5 4.5-10 10-10s10 4.5 10 10v14c0 5.5-4.5 10-10 10h-8c-5.5 0-10 4.5-10 10s4.5 10 10 10h8c16.6 0 30-13.4 30-30v-14c0-16.6-13.4-30-30-30Z" fill="white"/>
+  <text x="154" y="292" fill="#172033" font-family="Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="-4">·»¤­ì¤</text>
+  <text x="154" y="358" fill="#475467" font-family="Arial, sans-serif" font-size="32" font-weight="700">«áégÿân¾’»ëÕÁ§Ã¯</text>
+  <text x="154" y="420" fill="#667085" font-family="Arial, sans-serif" font-size="25">¹ÈìüÈÍÃ¯û+Ìû–„pnUŒ’‹ôYMcKQk</text>
+  <defs>
+    <linearGradient id="brand" x1="154" y1="142" x2="238" y2="226" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="840" y1="150" x2="1020" y2="432" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EFF6FF"/>
+      <stop offset="1" stop-color="#F5F3FF"/>
+    </linearGradient>
+  </defs>
+</svg>
