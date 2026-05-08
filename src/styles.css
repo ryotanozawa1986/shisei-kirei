@@ -550,6 +550,10 @@ h3 {
   padding: 38px 0;
 }
 
+.measurePageShell .simpleNav {
+  padding: 16px 0 10px;
+}
+
 .placeholder,
 .documentPage {
   display: grid;
@@ -610,14 +614,10 @@ h3 {
 }
 
 .measureLayout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
-  gap: 42px;
-  align-items: center;
-  width: min(1120px, calc(100% - 40px));
-  min-height: calc(100vh - 120px);
+  width: min(860px, calc(100% - 40px));
+  min-height: calc(100vh - 74px);
   margin: 0 auto;
-  padding: 28px 0 90px;
+  padding: 0 0 28px;
 }
 
 .measureCopy {
@@ -659,7 +659,7 @@ h3 {
 }
 
 .statusMessage {
-  margin: 4px 0 0;
+  margin: 0;
   padding: 14px 16px;
   border-radius: 16px;
   font-weight: 700;
@@ -685,7 +685,6 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 14px;
 }
 
 .detectionBadge {
@@ -693,16 +692,17 @@ h3 {
   align-items: center;
   gap: 7px;
   padding: 8px 10px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 999px;
-  color: #667085;
+  color: rgba(255, 255, 255, 0.78);
   font-size: 0.86rem;
   font-weight: 700;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(15, 23, 42, 0.44);
+  backdrop-filter: blur(14px);
 }
 
 .detectionBadge svg {
-  color: #98a2b3;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .detectionBadge.active {
@@ -719,12 +719,12 @@ h3 {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 14px 0 0;
   padding: 13px 15px;
-  border: 1px solid #bfdbfe;
+  border: 1px solid rgba(191, 219, 254, 0.5);
   border-radius: 16px;
-  color: #1e3a8a;
-  background: #eff6ff;
+  color: #dbeafe;
+  background: rgba(30, 58, 138, 0.62);
+  backdrop-filter: blur(16px);
 }
 
 .autoStartNotice p {
@@ -742,12 +742,12 @@ h3 {
   display: grid;
   justify-items: center;
   gap: 8px;
-  margin: 18px 0;
-  padding: 22px;
-  border: 1px solid var(--line);
+  padding: 22px 26px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 16px 36px rgba(57, 80, 128, 0.08);
+  background: rgba(15, 23, 42, 0.45);
+  box-shadow: 0 18px 46px rgba(15, 23, 42, 0.25);
+  backdrop-filter: blur(18px);
 }
 
 .measurementStatus span {
@@ -764,7 +764,7 @@ h3 {
 
 .measurementStatus p {
   margin: 0;
-  color: #344054;
+  color: #ffffff;
   font-weight: 800;
 }
 
@@ -774,7 +774,7 @@ h3 {
 }
 
 .measurementStatus.measuring svg {
-  color: #4f46e5;
+  color: #ffffff;
 }
 
 .actionCard {
@@ -799,9 +799,9 @@ h3 {
 }
 
 .measureCameraCard {
-  padding: 18px;
+  padding: 12px;
   border: 1px solid var(--line);
-  border-radius: 38px;
+  border-radius: 40px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(246, 248, 255, 0.9)),
     radial-gradient(circle at top right, rgba(139, 92, 246, 0.16), transparent 20rem);
@@ -810,9 +810,9 @@ h3 {
 
 .liveCameraFrame {
   position: relative;
-  min-height: 540px;
+  min-height: min(760px, calc(100vh - 112px));
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 32px;
   background:
     linear-gradient(180deg, rgba(236, 244, 255, 0.96), rgba(246, 240, 255, 0.96)),
     repeating-linear-gradient(90deg, rgba(59, 130, 246, 0.08) 0 1px, transparent 1px 30px);
@@ -830,7 +830,7 @@ h3 {
 .cameraEmpty {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   display: grid;
   place-content: center;
   gap: 16px;
@@ -853,7 +853,7 @@ h3 {
 .measureOverlay {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
@@ -892,11 +892,114 @@ h3 {
   background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.8), transparent);
 }
 
+.cameraUiOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 16px;
+  padding: 18px;
+  pointer-events: none;
+}
+
+.cameraUiOverlay button,
+.cameraUiOverlay a,
+.cameraUiOverlay summary {
+  pointer-events: auto;
+}
+
+.cameraTopOverlay,
+.cameraBottomOverlay {
+  display: grid;
+  gap: 12px;
+}
+
+.cameraTopOverlay {
+  align-content: start;
+}
+
+.cameraBottomOverlay {
+  align-content: end;
+}
+
+.cameraCenterOverlay {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
+.cameraActionCard {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.58), rgba(15, 23, 42, 0.38));
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.22);
+  backdrop-filter: blur(18px);
+}
+
+.cameraTitlePanel {
+  width: min(860px, calc(100% - 40px));
+  margin: 0 auto 16px;
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 16px 42px rgba(91, 99, 245, 0.1);
+  backdrop-filter: blur(16px);
+}
+
+.cameraTitlePanel .eyebrow {
+  margin-bottom: 8px;
+  color: #4f46e5;
+}
+
+.cameraTitlePanel h1 {
+  margin-bottom: 8px;
+  font-size: clamp(1.5rem, 5vw, 2.45rem);
+  letter-spacing: -0.055em;
+}
+
+.cameraTitlePanel p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.cameraActionCard {
+  max-width: min(560px, 100%);
+  margin: 0;
+  color: #ffffff;
+}
+
+.cameraActionCard .eyebrow {
+  color: #dbeafe;
+}
+
+.cameraActionCard h2 {
+  color: #ffffff;
+}
+
+.cameraActionCard p:not(.eyebrow) {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cameraControls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.glassButton {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(16px);
+}
+
 .cameraHints {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 14px;
 }
 
 .cameraHints span {
@@ -905,13 +1008,14 @@ h3 {
   gap: 7px;
   padding: 9px 12px;
   border-radius: 999px;
-  color: #475467;
+  color: rgba(255, 255, 255, 0.86);
   font-size: 0.9rem;
-  background: #ffffff;
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(14px);
 }
 
 .cameraHints svg {
-  color: #4f46e5;
+  color: #bfdbfe;
 }
 
 .resultLayout,
@@ -1223,8 +1327,11 @@ h3 {
     padding-bottom: 24px;
   }
 
+  .measurePageShell .simpleNav {
+    padding: 12px 0 8px;
+  }
+
   .measureLayout {
-    grid-template-columns: 1fr;
     min-height: auto;
   }
 
@@ -1234,7 +1341,7 @@ h3 {
   }
 
   .liveCameraFrame {
-    min-height: 480px;
+    min-height: min(720px, calc(100vh - 100px));
   }
 }
 
@@ -1291,6 +1398,54 @@ h3 {
   }
 
   .liveCameraFrame {
-    min-height: 440px;
+    min-height: min(720px, calc(100vh - 92px));
+    border-radius: 26px;
+  }
+
+  .measureCameraCard {
+    padding: 8px;
+    border-radius: 30px;
+  }
+
+  .cameraUiOverlay {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .cameraTitlePanel {
+    padding: 12px 14px;
+    border-radius: 18px;
+  }
+
+  .cameraTitlePanel p:not(.eyebrow) {
+    display: none;
+  }
+
+  .detectionBadge {
+    padding: 7px 9px;
+    font-size: 0.78rem;
+  }
+
+  .cameraHints {
+    gap: 6px;
+  }
+
+  .cameraHints span {
+    padding: 7px 9px;
+    font-size: 0.78rem;
+  }
+
+  .cameraControls {
+    grid-template-columns: 1fr;
+  }
+
+  .measurementStatus {
+    padding: 18px;
+  }
+
+  .measurementStatus span {
+    width: 68px;
+    height: 68px;
+    font-size: 2rem;
   }
 }

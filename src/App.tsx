@@ -690,115 +690,19 @@ function MeasurePage() {
   }
 
   return (
-    <main className="app pageShell">
+    <main className="app pageShell measurePageShell">
       <SimpleHeader />
 
+      <div className="cameraTitlePanel">
+        <p className="eyebrow">
+          <Camera size={16} />
+          Camera Setup
+        </p>
+        <h1>顔と肩を枠内に合わせてください</h1>
+        <p>正面を向いて座り、姿勢をそのままキープしてください。映像は保存されません。</p>
+      </div>
+
       <section className="measureLayout">
-        <div className="measureCopy">
-          <p className="eyebrow">
-            <Camera size={16} />
-            Camera Setup
-          </p>
-          <h1>顔と肩が枠内に入る位置で、カメラをセットしてください。</h1>
-          <p className="lead">
-            正面を向いて座り、顔と左右の肩が画面に入るように調整します。映像は保存されません。
-          </p>
-
-          <div className="measureSteps" aria-label="測定準備の手順">
-            <div>
-              <span>1</span>
-              <p>明るい場所で正面を向く</p>
-            </div>
-            <div>
-              <span>2</span>
-              <p>顔と肩をガイド内に合わせる</p>
-            </div>
-            <div>
-              <span>3</span>
-              <p>準備できたら測定へ進む</p>
-            </div>
-          </div>
-
-          <div className="heroActions">
-            <button
-              className="primaryButton"
-              type="button"
-              onClick={startCamera}
-              disabled={cameraStatus === "loading" || isVisionLoading}
-            >
-              {cameraStatus === "loading" || isVisionLoading ? (
-                <>
-                  <LoaderCircle className="spinIcon" size={18} />
-                  {cameraStatus === "loading" ? "起動中" : "検出準備中"}
-                </>
-              ) : (
-                <>
-                  カメラを起動する
-                  <Camera size={18} />
-                </>
-              )}
-            </button>
-            <button
-              className="secondaryButton"
-              type="button"
-              onClick={startMeasurement}
-              disabled={!isMeasureReady || stage === "countdown" || stage === "measuring"}
-            >
-              {autoStartArmed
-                ? "自動測定待機中"
-                : round === "before"
-                  ? "手動で測定開始"
-                  : "手動で再測定開始"}
-              <Play size={17} />
-            </button>
-          </div>
-
-          {autoStartArmed && (
-            <div className="autoStartNotice">
-              <LoaderCircle className="spinIcon" size={18} />
-              <p>姿勢が安定しています。このままキープすると自動で測定を開始します。</p>
-            </div>
-          )}
-
-          {stage === "countdown" && (
-            <div className="measurementStatus">
-              <span>{countdown}</span>
-              <p>姿勢をそのままキープしてください</p>
-            </div>
-          )}
-          {stage === "measuring" && (
-            <div className="measurementStatus measuring">
-              <LoaderCircle className="spinIcon" size={24} />
-              <p>5秒間測定しています</p>
-            </div>
-          )}
-          {stage === "action" && beforeResult && (
-            <div className="actionCard">
-              <p className="eyebrow">Improve</p>
-              <h2>今一番崩れているのは「{scoreLabels[beforeResult.worstItem]}」です</h2>
-              <p>{improvementActions[beforeResult.worstItem]}</p>
-              <button className="primaryButton" type="button" onClick={startAfterMeasurement}>
-                改善姿勢で再測定する
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          )}
-
-          {cameraStatus === "ready" && (
-            <p className={`statusMessage ${isMeasureReady ? "success" : "warning"}`}>
-              {detectionState.message}
-            </p>
-          )}
-          {cameraStatus === "error" && <p className="statusMessage error">{errorMessage}</p>}
-
-          <div className="detectionChecklist" aria-label="測定開始条件">
-            <DetectionBadge label="顔が検出されている" active={detectionState.faceVisible} />
-            <DetectionBadge label="左右の肩が検出されている" active={detectionState.shouldersVisible} />
-            <DetectionBadge label="顔が中央にある" active={detectionState.centered} />
-            <DetectionBadge label="肩が画面内に収まっている" active={detectionState.shouldersInFrame} />
-          </div>
-        </div>
-
         <div className="measureCameraCard">
           <div className="liveCameraFrame">
             {cameraStatus === "idle" && (
@@ -819,20 +723,108 @@ function MeasurePage() {
               <span className="measureShoulderGuide" />
               <span className="measureCenterLine" />
             </div>
-          </div>
-          <div className="cameraHints">
-            <span>
-              <UserRound size={16} />
-              {detectionState.faceVisible ? "顔を検出中" : "顔を中央に合わせる"}
-            </span>
-            <span>
-              <StretchHorizontal size={16} />
-              {detectionState.shouldersVisible ? "肩を検出中" : "肩を画面内に入れる"}
-            </span>
-            <span>
-              <ShieldCheck size={16} />
-              映像保存なし
-            </span>
+
+            <div className="cameraUiOverlay">
+              <div className="cameraTopOverlay">
+                <div className="detectionChecklist" aria-label="測定開始条件">
+                  <DetectionBadge label="顔" active={detectionState.faceVisible} />
+                  <DetectionBadge label="肩" active={detectionState.shouldersVisible} />
+                  <DetectionBadge label="中央" active={detectionState.centered} />
+                  <DetectionBadge label="枠内" active={detectionState.shouldersInFrame} />
+                </div>
+              </div>
+
+              <div className="cameraCenterOverlay">
+                {stage === "countdown" && (
+                  <div className="measurementStatus">
+                    <span>{countdown}</span>
+                    <p>姿勢をそのままキープ</p>
+                  </div>
+                )}
+                {stage === "measuring" && (
+                  <div className="measurementStatus measuring">
+                    <LoaderCircle className="spinIcon" size={24} />
+                    <p>5秒間測定しています</p>
+                  </div>
+                )}
+                {stage === "action" && beforeResult && (
+                  <div className="actionCard cameraActionCard">
+                    <p className="eyebrow">Improve</p>
+                    <h2>今一番崩れているのは「{scoreLabels[beforeResult.worstItem]}」です</h2>
+                    <p>{improvementActions[beforeResult.worstItem]}</p>
+                    <button className="primaryButton" type="button" onClick={startAfterMeasurement}>
+                      改善姿勢で再測定する
+                      <ArrowRight size={18} />
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="cameraBottomOverlay">
+                {autoStartArmed && (
+                  <div className="autoStartNotice">
+                    <LoaderCircle className="spinIcon" size={18} />
+                    <p>姿勢が安定しています。自動で測定を開始します。</p>
+                  </div>
+                )}
+
+                {cameraStatus === "ready" && (
+                  <p className={`statusMessage ${isMeasureReady ? "success" : "warning"}`}>
+                    {detectionState.message}
+                  </p>
+                )}
+                {cameraStatus === "error" && <p className="statusMessage error">{errorMessage}</p>}
+
+                <div className="cameraHints">
+                  <span>
+                    <UserRound size={16} />
+                    {detectionState.faceVisible ? "顔を検出中" : "顔を中央へ"}
+                  </span>
+                  <span>
+                    <StretchHorizontal size={16} />
+                    {detectionState.shouldersVisible ? "肩を検出中" : "肩を枠内へ"}
+                  </span>
+                  <span>
+                    <ShieldCheck size={16} />
+                    映像保存なし
+                  </span>
+                </div>
+
+                <div className="cameraControls">
+                  <button
+                    className="primaryButton"
+                    type="button"
+                    onClick={startCamera}
+                    disabled={cameraStatus === "loading" || isVisionLoading}
+                  >
+                    {cameraStatus === "loading" || isVisionLoading ? (
+                      <>
+                        <LoaderCircle className="spinIcon" size={18} />
+                        {cameraStatus === "loading" ? "起動中" : "検出準備中"}
+                      </>
+                    ) : (
+                      <>
+                        カメラを起動
+                        <Camera size={18} />
+                      </>
+                    )}
+                  </button>
+                  <button
+                    className="secondaryButton glassButton"
+                    type="button"
+                    onClick={startMeasurement}
+                    disabled={!isMeasureReady || stage === "countdown" || stage === "measuring"}
+                  >
+                    {autoStartArmed
+                      ? "自動測定待機中"
+                      : round === "before"
+                        ? "手動で測定"
+                        : "手動で再測定"}
+                    <Play size={17} />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
