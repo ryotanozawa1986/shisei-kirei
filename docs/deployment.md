@@ -6,6 +6,10 @@
 - Build output directory: `dist`
 - Node.js: 24系推奨
 
+Cloudflareのデプロイ方式が `wrangler deploy` の場合、SPAのフォールバックはWrangler側の
+`not_found_handling: "single-page-application"` を利用する。
+`_redirects` の `/* /index.html 200` は無限ループ扱いになるため置かない。
+
 ## 環境変数
 
 - `VITE_SENTRY_DSN`
