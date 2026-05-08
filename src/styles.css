@@ -715,6 +715,29 @@ h3 {
   color: #16a34a;
 }
 
+.autoStartNotice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 13px 15px;
+  border: 1px solid #bfdbfe;
+  border-radius: 16px;
+  color: #1e3a8a;
+  background: #eff6ff;
+}
+
+.autoStartNotice p {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+.autoStartNotice svg {
+  flex: 0 0 auto;
+  color: #4f46e5;
+}
+
 .measurementStatus {
   display: grid;
   justify-items: center;

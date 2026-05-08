@@ -440,6 +440,7 @@ function MeasurePage() {
   const animationFrameRef = useRef<number | null>(null);
   const countdownTimerRef = useRef<number | null>(null);
   const measureTimerRef = useRef<number | null>(null);
+  const autoStartTimerRef = useRef<number | null>(null);
   const activeMeasurementRef = useRef(false);
   const sampleBufferRef = useRef<NormalizedLandmark[][]>([]);
   const beforeResultRef = useRef<MeasurementResult | null>(null);
@@ -449,6 +450,7 @@ function MeasurePage() {
   const [stage, setStage] = useState<MeasurementStage>("setup");
   const [round, setRound] = useState<MeasurementRound>("before");
   const [countdown, setCountdown] = useState(3);
+  const [autoStartArmed, setAutoStartArmed] = useState(false);
   const [beforeResult, setBeforeResult] = useState<MeasurementResult | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -470,10 +472,39 @@ function MeasurePage() {
       if (measureTimerRef.current !== null) {
         window.clearTimeout(measureTimerRef.current);
       }
+      if (autoStartTimerRef.current !== null) {
+        window.clearTimeout(autoStartTimerRef.current);
+      }
       poseLandmarkerRef.current?.close();
       streamRef.current?.getTracks().forEach((track) => track.stop());
     };
   }, []);
+
+  useEffect(() => {
+    if (autoStartTimerRef.current !== null) {
+      window.clearTimeout(autoStartTimerRef.current);
+      autoStartTimerRef.current = null;
+    }
+
+    if (!isMeasureReady || stage !== "setup") {
+      setAutoStartArmed(false);
+      return;
+    }
+
+    setAutoStartArmed(true);
+    autoStartTimerRef.current = window.setTimeout(() => {
+      autoStartTimerRef.current = null;
+      setAutoStartArmed(false);
+      startMeasurement();
+    }, 1200);
+
+    return () => {
+      if (autoStartTimerRef.current !== null) {
+        window.clearTimeout(autoStartTimerRef.current);
+        autoStartTimerRef.current = null;
+      }
+    };
+  }, [isMeasureReady, stage, round]);
 
   async function startCamera() {
     if (!navigator.mediaDevices?.getUserMedia) {
@@ -580,6 +611,11 @@ function MeasurePage() {
       return;
     }
 
+    if (autoStartTimerRef.current !== null) {
+      window.clearTimeout(autoStartTimerRef.current);
+      autoStartTimerRef.current = null;
+    }
+    setAutoStartArmed(false);
     setCountdown(3);
     setStage("countdown");
 
@@ -708,10 +744,21 @@ function MeasurePage() {
               onClick={startMeasurement}
               disabled={!isMeasureReady || stage === "countdown" || stage === "measuring"}
             >
-              {round === "before" ? "測定開始" : "再測定開始"}
+              {autoStartArmed
+                ? "自動測定待機中"
+                : round === "before"
+                  ? "手動で測定開始"
+                  : "手動で再測定開始"}
               <Play size={17} />
             </button>
           </div>
+
+          {autoStartArmed && (
+            <div className="autoStartNotice">
+              <LoaderCircle className="spinIcon" size={18} />
+              <p>姿勢が安定しています。このままキープすると自動で測定を開始します。</p>
+            </div>
+          )}
 
           {stage === "countdown" && (
             <div className="measurementStatus">
